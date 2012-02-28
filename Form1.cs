@@ -38,11 +38,11 @@ namespace ExcelUtls
             return obj == null ? "" : obj.ToString();
         }
 
-        private int ParseToInt(object obj)
+        private double ParseToDouble(object obj)
         {
             try
             {
-                return int.Parse(obj.ToString());
+                return double.Parse(obj.ToString());
             }
             catch
             {
@@ -66,8 +66,7 @@ namespace ExcelUtls
         {
             if (e.RowIndex >= 0)
             {
-                string dir = Directory.GetCurrentDirectory();
-                string file = dir + "\\" + dataGridView1.Rows[e.RowIndex].Cells["Excel"].Value.ToString();
+                string file = dataGridView1.Rows[e.RowIndex].Tag as string;
                 try
                 {
                     System.Diagnostics.Process.Start(file);
@@ -86,11 +85,13 @@ namespace ExcelUtls
             dataGridView1.Columns["cell"].HeaderText = "Cell (" + cellName + ")";
             foreach (KeyValuePair<string, XLWorkbook> wb in wbs)
             {
-                DataGridViewRow row = new DataGridViewRow();
                 var ws = wb.Value.Worksheet(sheetNo);
                 var cell = ws.Cell(cellName);
 
-                dataGridView1.Rows.Add(new object[] { Path.GetFileName(wb.Key), ws.Name, cell.Value });
+                DataGridViewRow row = new DataGridViewRow();
+                row.Tag = wb.Key;
+                row.CreateCells(dataGridView1, new object[] { Path.GetFileName(wb.Key), ws.Name, cell.Value });
+                dataGridView1.Rows.Add(row);
             }
         }
 
@@ -99,16 +100,16 @@ namespace ExcelUtls
             string cellName = this.textBoxColumn.Text.Trim() + this.textBoxRow.Text.Trim();
             Show(1, cellName);
 
-            List<int> vals = new List<int>();
+            List<double> vals = new List<double>();
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                vals.Add(ParseToInt(row.Cells["cell"].Value));
+                vals.Add(ParseToDouble(row.Cells["cell"].Value));
             }
 
-            this.textBoxSum.Text = vals.Sum().ToString();
-            this.textBoxAvg.Text = vals.Average().ToString();
-            this.textBoxMax.Text = vals.Max().ToString();
-            this.textBoxMin.Text = vals.Min().ToString();
+            this.textBoxSum.Text = vals.Count == 0 ? "" : vals.Sum().ToString();
+            this.textBoxAvg.Text = vals.Count == 0 ? "" : vals.Average().ToString();
+            this.textBoxMax.Text = vals.Count == 0 ? "" : vals.Max().ToString();
+            this.textBoxMin.Text = vals.Count == 0 ? "" : vals.Min().ToString();
         }
 
         private void ParseExcels()
@@ -155,7 +156,7 @@ namespace ExcelUtls
 
         }
 
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RefreshExcels()
         {
             foreach (string f in files)
             {
@@ -166,6 +167,11 @@ namespace ExcelUtls
                 }
             }
             ParseExcels();
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshExcels();
         }
 
         private OpenFileDialog importDialog = new OpenFileDialog();
@@ -210,12 +216,32 @@ namespace ExcelUtls
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("           Cell One 1.0.0              \n \n               For Lisa ", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("           Cell One 1.0.1              \n \n               For Lisa ", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.weibo.com/hutusi/");
+        }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (importDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                files.AddRange(importDialog.FileNames);
+                RefreshExcels();
+            }
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                string file = row.Tag as string;
+                files.Remove(file);
+                wbs.Remove(file);
+            }
+            RefreshExcels();
         }
     }
 }

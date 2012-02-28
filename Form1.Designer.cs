@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.excel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sheet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBoxColumn = new System.Windows.Forms.TextBox();
             this.textBoxRow = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,21 +42,20 @@
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sheet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cell = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.textBoxAvg = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxMax = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBoxMin = new System.Windows.Forms.TextBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label6 = new System.Windows.Forms.Label();
+            this.textBoxMin = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxMax = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxAvg = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -78,6 +80,27 @@
             this.dataGridView1.Size = new System.Drawing.Size(474, 430);
             this.dataGridView1.TabIndex = 50;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            // 
+            // excel
+            // 
+            this.excel.HeaderText = "Excel";
+            this.excel.Name = "excel";
+            this.excel.ReadOnly = true;
+            this.excel.Width = 150;
+            // 
+            // sheet
+            // 
+            this.sheet.HeaderText = "Sheet";
+            this.sheet.Name = "sheet";
+            this.sheet.ReadOnly = true;
+            this.sheet.Width = 120;
+            // 
+            // cell
+            // 
+            this.cell.HeaderText = "Cell";
+            this.cell.Name = "cell";
+            this.cell.ReadOnly = true;
+            this.cell.Width = 180;
             // 
             // textBoxColumn
             // 
@@ -149,6 +172,8 @@
             this.importToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.refreshToolStripMenuItem,
+            this.addToolStripMenuItem,
+            this.removeToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -176,6 +201,13 @@
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.refreshToolStripMenuItem.Text = "Refresh(&R)";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.aboutToolStripMenuItem.Text = "About(&B)";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -205,6 +237,63 @@
             this.splitContainer1.SplitterDistance = 531;
             this.splitContainer1.TabIndex = 101;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(31, 224);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(23, 12);
+            this.label6.TabIndex = 97;
+            this.label6.Text = "Min";
+            // 
+            // textBoxMin
+            // 
+            this.textBoxMin.Location = new System.Drawing.Point(69, 221);
+            this.textBoxMin.Name = "textBoxMin";
+            this.textBoxMin.ReadOnly = true;
+            this.textBoxMin.Size = new System.Drawing.Size(134, 21);
+            this.textBoxMin.TabIndex = 4;
+            this.textBoxMin.Text = "0";
+            this.textBoxMin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxColumn_MouseDown);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(31, 186);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(23, 12);
+            this.label5.TabIndex = 97;
+            this.label5.Text = "Max";
+            // 
+            // textBoxMax
+            // 
+            this.textBoxMax.Location = new System.Drawing.Point(69, 183);
+            this.textBoxMax.Name = "textBoxMax";
+            this.textBoxMax.ReadOnly = true;
+            this.textBoxMax.Size = new System.Drawing.Size(134, 21);
+            this.textBoxMax.TabIndex = 4;
+            this.textBoxMax.Text = "0";
+            this.textBoxMax.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxColumn_MouseDown);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(31, 149);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 12);
+            this.label4.TabIndex = 97;
+            this.label4.Text = "Avg";
+            // 
+            // textBoxAvg
+            // 
+            this.textBoxAvg.Location = new System.Drawing.Point(69, 146);
+            this.textBoxAvg.Name = "textBoxAvg";
+            this.textBoxAvg.ReadOnly = true;
+            this.textBoxAvg.Size = new System.Drawing.Size(134, 21);
+            this.textBoxAvg.TabIndex = 4;
+            this.textBoxAvg.Text = "0";
+            this.textBoxAvg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxColumn_MouseDown);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -217,39 +306,17 @@
             this.statusStrip1.TabIndex = 102;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.aboutToolStripMenuItem.Text = "About(&A)";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // excel
-            // 
-            this.excel.HeaderText = "Excel";
-            this.excel.Name = "excel";
-            this.excel.ReadOnly = true;
-            this.excel.Width = 150;
-            // 
-            // sheet
-            // 
-            this.sheet.HeaderText = "Sheet";
-            this.sheet.Name = "sheet";
-            this.sheet.ReadOnly = true;
-            this.sheet.Width = 120;
-            // 
-            // cell
-            // 
-            this.cell.HeaderText = "Cell";
-            this.cell.Name = "cell";
-            this.cell.ReadOnly = true;
-            this.cell.Width = 180;
-            // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(57, 17);
             this.toolStripStatusLabel1.Text = "Welcome";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(593, 17);
+            this.toolStripStatusLabel3.Spring = true;
             // 
             // toolStripStatusLabel2
             // 
@@ -261,68 +328,19 @@
             this.toolStripStatusLabel2.Text = "Powered by @hutusi";
             this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
             // 
-            // toolStripStatusLabel3
+            // addToolStripMenuItem
             // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(593, 17);
-            this.toolStripStatusLabel3.Spring = true;
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.addToolStripMenuItem.Text = "Add(&A)";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
-            // textBoxAvg
+            // removeToolStripMenuItem
             // 
-            this.textBoxAvg.Location = new System.Drawing.Point(69, 146);
-            this.textBoxAvg.Name = "textBoxAvg";
-            this.textBoxAvg.ReadOnly = true;
-            this.textBoxAvg.Size = new System.Drawing.Size(134, 21);
-            this.textBoxAvg.TabIndex = 4;
-            this.textBoxAvg.Text = "0";
-            this.textBoxAvg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxColumn_MouseDown);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(31, 149);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 12);
-            this.label4.TabIndex = 97;
-            this.label4.Text = "Avg";
-            // 
-            // textBoxMax
-            // 
-            this.textBoxMax.Location = new System.Drawing.Point(69, 183);
-            this.textBoxMax.Name = "textBoxMax";
-            this.textBoxMax.ReadOnly = true;
-            this.textBoxMax.Size = new System.Drawing.Size(134, 21);
-            this.textBoxMax.TabIndex = 4;
-            this.textBoxMax.Text = "0";
-            this.textBoxMax.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxColumn_MouseDown);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(31, 186);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 12);
-            this.label5.TabIndex = 97;
-            this.label5.Text = "Max";
-            // 
-            // textBoxMin
-            // 
-            this.textBoxMin.Location = new System.Drawing.Point(69, 221);
-            this.textBoxMin.Name = "textBoxMin";
-            this.textBoxMin.ReadOnly = true;
-            this.textBoxMin.Size = new System.Drawing.Size(134, 21);
-            this.textBoxMin.TabIndex = 4;
-            this.textBoxMin.Text = "0";
-            this.textBoxMin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxColumn_MouseDown);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(31, 224);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(23, 12);
-            this.label6.TabIndex = 97;
-            this.label6.Text = "Min";
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.removeToolStripMenuItem.Text = "Remove(&M)";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -377,6 +395,8 @@
         private System.Windows.Forms.TextBox textBoxMax;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxAvg;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
     }
 }
 
