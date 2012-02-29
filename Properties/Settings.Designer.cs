@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExcelUtls.Properties {
+namespace CellOne.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

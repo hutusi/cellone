@@ -9,11 +9,11 @@ using System.Windows.Forms;
 using System.IO;
 using ClosedXML.Excel;
 
-namespace ExcelUtls
+namespace CellOne
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -97,8 +97,9 @@ namespace ExcelUtls
 
         private void Calc()
         {
+            int sheetNo = int.Parse(this.textBoxSheet.Text.Trim());
             string cellName = this.textBoxColumn.Text.Trim() + this.textBoxRow.Text.Trim();
-            Show(1, cellName);
+            Show(sheetNo, cellName);
 
             List<double> vals = new List<double>();
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -106,10 +107,10 @@ namespace ExcelUtls
                 vals.Add(ParseToDouble(row.Cells["cell"].Value));
             }
 
-            this.textBoxSum.Text = vals.Count == 0 ? "" : vals.Sum().ToString();
-            this.textBoxAvg.Text = vals.Count == 0 ? "" : vals.Average().ToString();
-            this.textBoxMax.Text = vals.Count == 0 ? "" : vals.Max().ToString();
-            this.textBoxMin.Text = vals.Count == 0 ? "" : vals.Min().ToString();
+            this.textBoxSum.Text = vals.Count == 0 ? "0" : vals.Sum().ToString();
+            this.textBoxAvg.Text = vals.Count == 0 ? "0" : vals.Average().ToString();
+            this.textBoxMax.Text = vals.Count == 0 ? "0" : vals.Max().ToString();
+            this.textBoxMin.Text = vals.Count == 0 ? "0" : vals.Min().ToString();
         }
 
         private void ParseExcels()
@@ -125,7 +126,7 @@ namespace ExcelUtls
         {
             if (importDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                files = new List<string>(importDialog.FileNames);
+                files = new HashSet<string>(importDialog.FileNames);
                 ParseExcels();
             }
         }
@@ -177,7 +178,7 @@ namespace ExcelUtls
         private OpenFileDialog importDialog = new OpenFileDialog();
         private SaveFileDialog exportDialog = new SaveFileDialog();
 
-        private List<string> files = new List<string>();
+        private HashSet<string> files = new HashSet<string>();
         private Dictionary<string, XLWorkbook> wbs = new Dictionary<string, XLWorkbook>();
 
         private void textBoxColumn_TextChanged(object sender, EventArgs e)
@@ -192,6 +193,14 @@ namespace ExcelUtls
 
         private void textBoxColumn_Validating(object sender, CancelEventArgs e)
         {
+        }
+
+        private void textBoxSheet_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) || e.KeyChar == '0')
+            {
+                e.Handled = true;
+            }
         }
 
         private void textBoxColumn_KeyPress(object sender, KeyPressEventArgs e)
@@ -214,6 +223,15 @@ namespace ExcelUtls
             }
         }
 
+        private void textBoxSheet_Enter(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.SelectAll();
+            }
+        }
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("           Cell One 1.0.1              \n \n               For Lisa ", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -228,7 +246,10 @@ namespace ExcelUtls
         {
             if (importDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                files.AddRange(importDialog.FileNames);
+                foreach (string f in importDialog.FileNames)
+                {
+                    files.Add(f);
+                }
                 RefreshExcels();
             }
         }
@@ -243,5 +264,6 @@ namespace ExcelUtls
             }
             RefreshExcels();
         }
+        
     }
 }
