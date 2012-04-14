@@ -239,7 +239,7 @@ namespace CellOne
 
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.weibo.com/hutusi/");
+            System.Diagnostics.Process.Start("http://hutusi.com/");
         }
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
